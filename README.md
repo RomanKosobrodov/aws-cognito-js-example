@@ -46,4 +46,7 @@ Click Credentials in the navigation bar and provide your user pool ID and app ID
 
 You might need a disposable email service like [Guerilla Mail](https://www.guerrillamail.com/) or similar to create new users.
 
+## Credits
+
+Icons by [Julian Schnaars](https://www.iconfinder.com/iconsets/female-styles)
 
