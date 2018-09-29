@@ -8,6 +8,10 @@ Example javascript application that uses AWS Cognito to:
 * reset forgotten password
 * delete the user
 
+## Motivation
+
+Examples provided in the [AWS Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/using-amazon-cognito-user-identity-pools-javascript-examples.html) are not always easy to follow. This minimalistic application was created to fill this gap.
+
 ## Prerequisites
 
 It is recommended that you create a new Cognito User pool for this example application.
