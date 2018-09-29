@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Cognito User Pool JS Example</title>
+
+		<!-- Bootstrap - Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16">  
+		<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32">  
+	</head>
+
+	<body>
+<!-- 
+	Modal Dialog for AWS Cognito User Pool and Application IDs
+ -->
+		<div class="container">
+			<div class="modal fade" id="credentialsModal" tabindex="-1" role="dialog" 
+				aria-labelledby="credentialsModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<button type="button" class="close" 
+							data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="credentialsModalLabel">
+								Provide IDs for AWS Congnito User Pool and Application
+							</h4>
+						</div>
+
+						<!-- Modal Body -->
+						<div class="modal-body">
+							<div role="form">
+								<div class="form-group">
+									<label for="cognitoUserPoolId">User Pool</label>
+									<input type="text" class="form-control"
+									id="cognitoUserPoolId" placeholder="Cognito User Pool ID"/>
+								</div>
+								<div class="form-group">
+									<label for="applicationId">Application</label>
+									<input type="text" class="form-control"
+									id="applicationId" placeholder="Application ID"/>
+								</div>
+							</div>
+						</div>
+
+						<!-- Modal Footer -->
+						<div class="modal-footer">
+					<!-- <div class="btn-toolbar" role="toolbar"> -->
+							<button type="button" class="btn btn-default btn-left"
+								data-dismiss="modal">
+								Close
+							</button>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal" onclick="clearCredentials()">
+								Forget
+							</button>
+							<button type="button" class="btn btn-primary btn-right" data-dismiss="modal" onclick="saveCredentials()">
+								Save
+							</button>
+					<!-- </div>		 -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- 
+	Modal Dialog for adding a new User
+ -->
+		<div class="container">
+			<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" 
+				aria-labelledby="addUserModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<button type="button" class="close" 
+							data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="addUserModalLabel">
+								Add a new user to the User Pool
+							</h4>
+						</div>
+
+						<!-- Modal Body -->
+						<div class="modal-body">
+							<div role="form">
+								<div class="form-group" id="userNameDiv">
+									<label for="userName">User name</label>
+									<input type="text" class="form-control" id="userName" placeholder="Enter user name">
+								</div>
+								<div class="form-group" id="userEmailDiv">
+									<label for="userEmail">Email address</label>
+									<input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email">
+								</div>
+								<div class="form-group" id="confirmationCode" hidden>
+									<label for="userConfirmationCode">Confirmation code</label>
+									<input type="text" class="form-control" id="userConfirmationCode" placeholder="Enter confirmation code">		  	
+								</div>
+								<div class="form-group" id="userPasswordDiv">
+ 									<label for="userPassword" id="passwordLabel">Password</label>
+ 									<input type="password" class="form-control" id="userPassword" placeholder="Enter password">
+									<input type="checkbox" class="form-check-input" id="showPasswordCheckbox" onclick="toggleShowPassword('showPasswordCheckbox', 'userPassword')">
+									<label class="form-check-label" for="showPasswordCheckbox">show</label>	
+								</div>
+								<div class="form-group" id="userNewPasswordDiv">
+ 									<label for="newUserPassword">New Password</label>
+ 									<input type="password" class="form-control" id="newUserPassword" placeholder="Enter password">
+									<input type="checkbox" class="form-check-input" id="showNewPasswordCheckbox" onclick="toggleShowPassword('showNewPasswordCheckbox', 'newUserPassword')">
+									<label class="form-check-label" for="showNewPasswordCheckbox">show</label>	
+								</div>
+							</div>
+						</div>
+
+						<!-- Modal Footer -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">
+								Close
+							</button>
+							<button type="button" id="modalFormButton" class="btn btn-primary" onclick="modalFormEnter()">
+								Sign Up
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- 
+	Navigation Bar 
+-->
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Cognito User Pool Example</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="credentialsLink" title="Click to enter credentials"
+						href="#" onclick="inputCredentials();return false;"><span class="glyphicon glyphicon-lock"></span> Credentials</a></li>
+				</ul>
+			</div>
+		</nav> 
+
+<!-- 
+	Users in the Pool
+ -->
+		<div class="container" id="usersHeader">
+			<div class="btn-toolbar" role="toolbar">
+			  <div class="dropdown">
+			    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Action 
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+			      <li><a href="#" onclick="actionAddUser();return false;"> Add User</a></li>	    	
+			      <li><a href="#" onclick="actionConfirmUser();return false;">Confirm User</a></li>
+			      <li><a href="#" onclick="actionSignInUser();return false;">Sign In</a></li>
+			      <li><a href="#" onclick="actionSignOutUser();return false;">Sign Out</a></li>   
+			      <li><a href="#" onclick="actionChangePassword();return false;">Change Password</a></li>
+			      <li><a href="#" onclick="actionForgotPassword();return false;">Forgot Password</a></li>
+			      <li><a href="#" onclick="actionDeleteUser();return false;">Delete User</a></li>
+			    </ul>
+			  </div>
+			</div>
+<!-- <span class="glyphicon glyphicon-user"></span> -->
+<!-- 
+	User Table
+ -->
+			 <table class="table" id="userTable">
+			 	<thead class="thead-light"> 
+			 		<tr>
+			 			<th>Name</th>
+			 			<th>Email</th>
+			 			<th>Confirmed</th>			 			
+			 			<th>Status</th>
+			 		</tr>
+			 	</thead>
+			 	<tbody>
+			 		<tr>
+			 			<td id="userNameCell"></td>
+			 			<td id="userEmailCell"></td>
+			 			<td id="userConfirmedCell"></td>
+			 			<td id="userStatusCell"></td>
+			 		</tr>
+			 	</tbody>
+			 </table>
+<!-- 
+	Alerts
+ -->
+			<div class="alert alert-danger" id="operationAlert" hidden>
+				<button type="button" class="close" onclick="closeAlertMessage()">&times;</button>
+			    <span></span> 
+			</div>		
+		</div> <!-- /container -->
+
+		<!-- Bootstrap's JavaScript dependencies -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<!-- Cognito User Pool related code -->
+		<script type="text/javascript" src="js/amazon-cognito-identity.min.js"></script>
+		<script type="text/javascript" src="js/authentication.js"></script>
+		<script type="text/javascript" src="js/userpool-ui.js"></script>
+	</body>
+</html>
