@@ -33,13 +33,13 @@ While creating the user pool make sure you:
 There are three files in the project:
 * index.html 
 * js/authentication.js is a thin wrapper for the SDK that makes using it a bit easier
-* js/user-interface.js contains rendering code, DOM event handlers etc.
+* js/user-interface.js contains page rendering code, DOM event handlers etc.
 
 ## How to use
 
 Clone the repo and open index.html in the browser. The code is tested on Chrome and Firefox.
-Click Credentials in the navigation bar and provide your user pool ID and app ID. They are stored in the browser local storage and will persist, so you might want to clear your secrets ("Forget" button) when you're done.
+Click Credentials in the navigation bar and provide your user pool ID and app ID. They are stored in the browser local storage and will persist, so you might want to clear your secrets ("Forget" button) when you're done using it.
 
-You might need a disposable email address like [Guerilla Mail](https://www.guerrillamail.com/) or similar to create new users.
+You might need a disposable email service like [Guerilla Mail](https://www.guerrillamail.com/) or similar to create new users.
 
 
