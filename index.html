@@ -8,6 +8,7 @@
 
 		<!-- Bootstrap - Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
 		<link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16">  
 		<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32">  
 	</head>
@@ -194,16 +195,43 @@
 			<div class="alert alert-danger" id="operationAlert" hidden>
 				<button type="button" class="close" onclick="closeAlertMessage()">&times;</button>
 			    <span></span> 
-			</div>		
+			</div>
+<!-- 
+	User Attributes Table
+ -->
+			<h3>User Attributes</h3>
+
+			<table class="table" id="userAttributesTable">
+			 	<thead class="thead-light"> 
+			 		<tr>
+			 			<th>Name</th>
+			 			<th>Value</th>
+			 		</tr>
+			 	</thead>
+			 	<tbody id="userAttributesTableBody">
+			 		<tr>
+			 			<td></td>
+			 			<td></td>
+			 		</tr>				 		
+			 	</tbody>
+			</table>				
+
 		</div> <!-- /container -->
 
 		<!-- Bootstrap's JavaScript dependencies -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+		
 		<!-- Cognito User Pool related code -->
 		<script type="text/javascript" src="js/amazon-cognito-identity.min.js"></script>
 		<script type="text/javascript" src="js/authentication.js"></script>
 		<script type="text/javascript" src="js/user-interface.js"></script>
 	</body>
 </html>
+
+
+
+<!-- Latest compiled and minified CSS -->
+
+
+<!-- Latest compiled and minified JavaScript -->

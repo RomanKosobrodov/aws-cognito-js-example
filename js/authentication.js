@@ -107,6 +107,7 @@ function deleteUser(callback){
 function changeUserPassword(oldPassword, newPassword, callback){
 	if (cognitoUser){
 		cognitoUser.changePassword(oldPassword, newPassword, callback);
+		return;
 	}
 	callback({name: "Error", message: "User is not signed in"}, null);	
 }
@@ -141,4 +142,17 @@ function userAttributes(updateCallback){
 	else {
 		updateCallback({});
 	}
+}
+
+
+function updateAttributes(attributes, callback){
+    var attributeList = [];
+    for (key in attributes){
+    	attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute( {
+    		Name: key,
+    		Value: attributes[key]
+    	}));
+    }
+
+    cognitoUser.updateAttributes(attributeList, callback);	
 }

@@ -201,6 +201,18 @@ function actionDeleteUser(){
 	deleteUser(callback);
 }
 
+function updateUserTable(attributes){
+	$("#userAttributesTableBody tr").remove();
+	let table =  document.getElementById("userAttributesTableBody");
+	for (key in attributes){
+		let row = table.insertRow(-1);
+		let nameCell = row.insertCell(0);
+		nameCell.innerHTML = key;
+		let valueCell = row.insertCell(1);
+		valueCell.innerHTML = attributes[key];
+	}
+}
+
 
 function updateTable(userInfo) {
 	user.update(userInfo);
@@ -216,7 +228,8 @@ function updateTable(userInfo) {
 		else {
 			$("#userConfirmedCell").html("");			
 		}
-
 	}	
 	$("#userStatusCell").html(user.status);			
+
+	updateUserTable(userInfo);
 }
